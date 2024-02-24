@@ -1,5 +1,6 @@
-# Mantine Next Template
+Steps to Setup a prject 
 
-Get started with the template by clicking `Use this template` button on the top of the page.
+1.npm install
+2.npm start
 
-[Documentation](https://mantine.dev/guides/next/)
+node version - 21.6.1
