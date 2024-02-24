@@ -7,6 +7,9 @@ import Globe from "./globe.png";
 import Phone from "./phone-call.png";
 import AtTheRate from "./sign.png";
 import AddUser from "./add-user.png";
+import Star from "./star.png"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash , faUserPlus ,faUserMinus } from '@fortawesome/free-solid-svg-icons';
 
 export default function HomePage() {
   const [data, setData] = useState([]);
@@ -53,48 +56,52 @@ setData(data.filter((i) => i.id !== item.id));
       }}
     >
       {data.map((item) => (
-        <div className="card" style={{ padding: "14px", margin: "1rem" }} key={item.id}>
+        <div className="card" style={{ padding: "14px", margin: "2rem" }} key={item.id}>
           <div className="img">
             {/* <div >Abhishek</div> */}
             <img id="rcorners1" src={`https://api.dicebear.com/7.x/initials/svg?seed=${item.name}`} alt="avatar" />
-            <b>{item.name}</b>
+            <b>{item.name}{" "}{ item.status===true ?<Image src={Star} alt="Star" height="15" width="15" /> : ""} </b>
           </div>
 
           <div className="container">
-            <p className="textxoloe">
+            <p className="textxoloe" style={{color:"grey"}}>
               <Image
                 className="tabler-icon-phone-call "
                 src={AtTheRate}
                 alt="At The Rate"
-                height="20"
-                width="20"
+                height="17"
+                width="17"
               />{" "}
               {item.email}
             </p>
-            <p>
+            <p style={{color:"grey"}}> 
               <Image
                 className="tabler-icon-phone-call textxoloe"
                 src={Phone}
                 alt="Phone"
-                height="20"
-                width="20"
+                height="17"
+                width="17"
               />{" "}
               {item.phone}
             </p>
-            <p>
+            <p style={{color:"grey"}}>
               <Image
                 className="tabler-icon-phone-call textxoloe"
                 src={Globe}
                 alt="Globe"
-                height="20"
-                width="20"
+                height="17"
+                width="17"
               />{" "}
               {item.website}
             </p>
           </div>
-          <div className="ButtonDiv">
-            <button className="primary-button" key={item.id} onClick={()=>FollowHandle(item)}>{item.status==true?"Unfollow":"Follow"}</button>
-            <button className="blue-button" onClick={()=>handleDelete(item)}>Delete </button>
+          <div className="ButtonDiv">{
+            item.status===false ?
+            <button className="primary-button" key={item.id} onClick={()=>FollowHandle(item)}><FontAwesomeIcon icon={faUserPlus} />{" Follow"}</button>
+            :
+            <button className="blue-button" key={item.id} onClick={()=>FollowHandle(item)}><FontAwesomeIcon icon={faUserMinus} />{" Unfollow"}</button>
+          }
+            <button className="blue-button" onClick={()=>handleDelete(item)}> <FontAwesomeIcon icon={faTrash} /> {" "}Delete </button>
           </div>
         </div>
       ))}
