@@ -1,4 +1,5 @@
 {
+  "homepage": "https://abhishek-parmar-au16.github.io/next-app-min-template",
   "name": "mantine-minimal-next-template",
   "version": "0.1.0",
   "private": true,
@@ -6,7 +7,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
@@ -16,9 +19,11 @@
     "@mantine/hooks": "7.5.3",
     "@tabler/icons": "^2.47.0",
     "axios": "^1.6.7",
+    "gh-pages": "^6.1.1",
     "next": "14.0.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "sharp": "^0.33.2"
   },
   "devDependencies": {
     "@types/node": "20.8.10",
