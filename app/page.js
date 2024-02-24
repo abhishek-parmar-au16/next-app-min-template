@@ -10,13 +10,17 @@ import AddUser from "./add-user.png";
 
 export default function HomePage() {
   const [data, setData] = useState([]);
+  const [follow,setFollow]=useState(false);
+  const [deleteBtn,setDeleteBtn]= useState(false);
 
   useEffect(() => {
     const Res = axios
       .get("https://jsonplaceholder.typicode.com/users")
       .then((res) => {
         console.log(res.data);
-        setData(res.data);
+        const DataFollo = res.data.map((idx)=>({...idx, status:false}))
+        console.log("DataFollo",DataFollo);
+        setData(DataFollo);
       });
     const ResP = axios
       .get("https://api.dicebear.com/7.x/initials/svg?seed=UserName")
@@ -26,8 +30,17 @@ export default function HomePage() {
       });
   }, []);
 
-  const FollowHandle=()=>{
-    alert("folow")
+  const FollowHandle=(item)=>{
+    console.log("item",item);
+    const objIndex = data.map(obj => obj.id == item.id ? !obj.status ? {...obj ,status:true} :{...obj ,status:false}: {...obj})
+    console.log("data",objIndex);
+    setData(objIndex)
+      
+  }
+
+  const handleDelete =(item)=>{
+console.log("dele",item);
+setData(data.filter((i) => i.id !== item.id));
   }
 
   return (
@@ -40,17 +53,17 @@ export default function HomePage() {
       }}
     >
       {data.map((item) => (
-        <div class="card" style={{ padding: "14px", margin: "1rem" }}>
-          <div class="img">
+        <div className="card" style={{ padding: "14px", margin: "1rem" }} key={item.id}>
+          <div className="img">
             {/* <div >Abhishek</div> */}
             <img id="rcorners1" src={`https://api.dicebear.com/7.x/initials/svg?seed=${item.name}`} alt="avatar" />
             <b>{item.name}</b>
           </div>
 
-          <div class="container">
-            <p class="textxoloe">
+          <div className="container">
+            <p className="textxoloe">
               <Image
-                class="tabler-icon-phone-call "
+                className="tabler-icon-phone-call "
                 src={AtTheRate}
                 alt="At The Rate"
                 height="20"
@@ -60,7 +73,7 @@ export default function HomePage() {
             </p>
             <p>
               <Image
-                class="tabler-icon-phone-call textxoloe"
+                className="tabler-icon-phone-call textxoloe"
                 src={Phone}
                 alt="Phone"
                 height="20"
@@ -70,7 +83,7 @@ export default function HomePage() {
             </p>
             <p>
               <Image
-                class="tabler-icon-phone-call textxoloe"
+                className="tabler-icon-phone-call textxoloe"
                 src={Globe}
                 alt="Globe"
                 height="20"
@@ -79,9 +92,9 @@ export default function HomePage() {
               {item.website}
             </p>
           </div>
-          <div class="ButtonDiv">
-            <button class="primary-button" onClick={FollowHandle}>Follow</button>
-            <button class="blue-button">Delete </button>
+          <div className="ButtonDiv">
+            <button className="primary-button" key={item.id} onClick={()=>FollowHandle(item)}>{item.status==true?"Unfollow":"Follow"}</button>
+            <button className="blue-button" onClick={()=>handleDelete(item)}>Delete </button>
           </div>
         </div>
       ))}
