@@ -7,22 +7,26 @@ import Globe from "./globe.png";
 import Phone from "./phone-call.png";
 import AtTheRate from "./sign.png";
 import AddUser from "./add-user.png";
-import Star from "./star.png"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash , faUserPlus ,faUserMinus } from '@fortawesome/free-solid-svg-icons';
+import Star from "./star.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTrash,
+  faUserPlus,
+  faUserMinus,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function HomePage() {
   const [data, setData] = useState([]);
-  const [follow,setFollow]=useState(false);
-  const [deleteBtn,setDeleteBtn]= useState(false);
+  const [follow, setFollow] = useState(false);
+  const [deleteBtn, setDeleteBtn] = useState(false);
 
   useEffect(() => {
     const Res = axios
       .get("https://jsonplaceholder.typicode.com/users")
       .then((res) => {
         console.log(res.data);
-        const DataFollo = res.data.map((idx)=>({...idx, status:false}))
-        console.log("DataFollo",DataFollo);
+        const DataFollo = res.data.map((idx) => ({ ...idx, status: false }));
+        console.log("DataFollo", DataFollo);
         setData(DataFollo);
       });
     const ResP = axios
@@ -33,18 +37,23 @@ export default function HomePage() {
       });
   }, []);
 
-  const FollowHandle=(item)=>{
-    console.log("item",item);
-    const objIndex = data.map(obj => obj.id == item.id ? !obj.status ? {...obj ,status:true} :{...obj ,status:false}: {...obj})
-    console.log("data",objIndex);
-    setData(objIndex)
-      
-  }
+  const FollowHandle = (item) => {
+    console.log("item", item);
+    const objIndex = data.map((obj) =>
+      obj.id == item.id
+        ? !obj.status
+          ? { ...obj, status: true }
+          : { ...obj, status: false }
+        : { ...obj }
+    );
+    console.log("data", objIndex);
+    setData(objIndex);
+  };
 
-  const handleDelete =(item)=>{
-console.log("dele",item);
-setData(data.filter((i) => i.id !== item.id));
-  }
+  const handleDelete = (item) => {
+    console.log("dele", item);
+    setData(data.filter((i) => i.id !== item.id));
+  };
 
   return (
     <div
@@ -56,15 +65,30 @@ setData(data.filter((i) => i.id !== item.id));
       }}
     >
       {data.map((item) => (
-        <div className="card" style={{ padding: "14px", margin: "2rem" }} key={item.id}>
+        <div
+          className="card"
+          style={{ padding: "14px", margin: "2rem" }}
+          key={item.id}
+        >
           <div className="img">
             {/* <div >Abhishek</div> */}
-            <img id="rcorners1" src={`https://api.dicebear.com/7.x/initials/svg?seed=${item.name}`} alt="avatar" />
-            <b>{item.name}{" "}{ item.status===true ?<Image src={Star} alt="Star" height="15" width="15" /> : ""} </b>
+            <img
+              id="rcorners1"
+              src={`https://api.dicebear.com/7.x/initials/svg?seed=${item.name}`}
+              alt="avatar"
+            />
+            <b>
+              {item.name}{" "}
+              {item.status === true ? (
+                <Image src={Star} alt="Star" height="15" width="15" />
+              ) : (
+                ""
+              )}{" "}
+            </b>
           </div>
 
           <div className="container">
-            <p className="textxoloe" style={{color:"grey"}}>
+            <p className="textxoloe" style={{ color: "grey" }}>
               <Image
                 className="tabler-icon-phone-call "
                 src={AtTheRate}
@@ -74,7 +98,7 @@ setData(data.filter((i) => i.id !== item.id));
               />{" "}
               {item.email}
             </p>
-            <p style={{color:"grey"}}> 
+            <p style={{ color: "grey" }}>
               <Image
                 className="tabler-icon-phone-call textxoloe"
                 src={Phone}
@@ -84,7 +108,7 @@ setData(data.filter((i) => i.id !== item.id));
               />{" "}
               {item.phone}
             </p>
-            <p style={{color:"grey"}}>
+            <p style={{ color: "grey" }}>
               <Image
                 className="tabler-icon-phone-call textxoloe"
                 src={Globe}
@@ -95,13 +119,30 @@ setData(data.filter((i) => i.id !== item.id));
               {item.website}
             </p>
           </div>
-          <div className="ButtonDiv">{
-            item.status===false ?
-            <button className="primary-button" key={item.id} onClick={()=>FollowHandle(item)}><FontAwesomeIcon icon={faUserPlus} />{" Follow"}</button>
-            :
-            <button className="blue-button" key={item.id} onClick={()=>FollowHandle(item)}><FontAwesomeIcon icon={faUserMinus} />{" Unfollow"}</button>
-          }
-            <button className="blue-button" onClick={()=>handleDelete(item)}> <FontAwesomeIcon icon={faTrash} /> {" "}Delete </button>
+          <div className="ButtonDiv">
+            {item.status === false ? (
+              <button
+                className="primary-button"
+                key={item.id}
+                onClick={() => FollowHandle(item)}
+              >
+                <FontAwesomeIcon icon={faUserPlus} />
+                {" Follow"}
+              </button>
+            ) : (
+              <button
+                className="blue-button"
+                key={item.id}
+                onClick={() => FollowHandle(item)}
+              >
+                <FontAwesomeIcon icon={faUserMinus} />
+                {" Unfollow"}
+              </button>
+            )}
+            <button className="blue-button" onClick={() => handleDelete(item)}>
+              {" "}
+              <FontAwesomeIcon icon={faTrash} /> Delete{" "}
+            </button>
           </div>
         </div>
       ))}
